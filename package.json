@@ -1,0 +1,25 @@
+{
+  "name": "backend-api",
+  "version": "1.0.0",
+  "description": "backend api for capstone",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "start-dev": "nodemon server.js",
+    "lint": "eslint ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^21.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.3.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^3.0.2"
+  }
+}
