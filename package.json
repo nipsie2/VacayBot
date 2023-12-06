@@ -2,7 +2,7 @@
   "name": "backend-api",
   "version": "1.0.0",
   "description": "backend api for capstone",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon server.js",
