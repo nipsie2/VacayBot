@@ -1,42 +1,61 @@
 const {
-  getRecommendationHandler,
   editUserHandler,
+  editPictureHandler,
+  getUserHandler,
   registerHandler,
-  PreferenceHandler,
-  deleteUserHandler
+  preferenceHandler,
+  loginHandler,
+  logoutHandler,
+  deleteUserHandler,
+  deletePictureHandler
 } = require('./handler')
 
 const routes = [
 
   {
     method: 'GET',
-    path: '/recommendation/{id}',
-    handler: getRecommendationHandler,
+    path: '/user/{id}',
+    handler: getUserHandler
   },
   {
     method: 'PUT',
     path: '/user/{id}',
-    handler: editUserHandler,
+    handler: editUserHandler
+  },
+  {
+    method: 'PUT',
+    path: '/user/picture/{id}',
+    handler: editPictureHandler
   },
   {
     method: 'POST',
     path: '/register',
-    handler: registerHandler,
+    handler: registerHandler
   },
   {
     method: 'POST',
-    path: '/recommendation/{id}',
-    handler: PreferenceHandler,
+    path: '/login',
+    handler: loginHandler
+  },
+  {
+    method: 'POST',
+    path: '/logout',
+    handler: logoutHandler
+  },
+  {
+    method: 'POST',
+    path: '/preference/{id}',
+    handler: preferenceHandler
   },
   {
     method: 'DELETE',
     path: '/user/{id}',
-    handler: deleteUserHandler,
+    handler: deleteUserHandler
   },
   {
     method: 'DELETE',
     path: '/user/picture/{id}',
-    handler: deleteUserHandler,
+    handler: deletePictureHandler
   }
 ]
 module.exports = routes

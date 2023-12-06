@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/hapi": "^21.3.2"
+    "@google-cloud/storage": "^7.7.0",
+    "@hapi/hapi": "^21.3.2",
+    "nanoid": "^5.0.4"
   },
   "devDependencies": {
     "eslint": "^8.55.0",
