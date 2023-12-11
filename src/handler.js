@@ -2,7 +2,9 @@ const { nanoid } = require('nanoid')
 const { gcloud } = require('@google-cloud/storage')
 const { Knex } = require('knex')
 
-// createTcpPool initializes a TCP connection pool for a Cloud SQL
+const storage = new gcloud(); // Create a new Storage instance
+
+// createTcpPool initializes a TCP conneconst storage = new Storage();ction pool for a Cloud SQL
 // instance of Postgres.
 const createTcpPool = async config => {
   // Note: Saving credentials in environment variables is convenient, but not
@@ -100,5 +102,59 @@ const editUserHandler = (request, h) => {
   response.code(200)
   return response
 }
+const deleteProfilePhoto = async (bucketName, fileName) => {
+  await storage.bucket(bucketName).file(fileName).delete();
+};
 
-module.exports = { registerHandler, editUserHandler }
+const deleteUserData = async (id) => {
+  const knex = await createTcpPool();
+
+  try {
+    await knex('user').where({ id: id }).del()
+  } catch (e) {
+    console.error(e.message)
+  } finally {
+    await knex.destroy(); // Menutup koneksi pool setelah penggunaannya
+  }
+}
+
+const deleteUserHandler = async (request, h) => {
+  try {
+    const { id, bucketName, fileName } = request.payload
+
+    // Hapus foto profil dari Cloud Storage
+    await deleteProfilePhoto(bucketName, fileName)
+
+    // Hapus data pengguna dari Cloud SQL
+    await deleteUserData(id)
+
+    return h.response({ message: 'User data and profile photo deleted successfully' }).code(200)
+  } catch (error) {
+    console.error('Error deleting user:', error)
+    return h.response({ error: 'Internal Server Error' }).code(500)
+  }
+}
+const editPictureHandler = async (request, h) => {
+  try {
+    const { id, bucketName, fileName } = request.payload
+
+    // Hapus foto profil dari Cloud Storag
+    const newFileName = `picture/${id}-${nanoid(8)}.jpg` // Generate a unique filename
+    await storage.bucket(bucketName).file(fileName).move(newFileName)
+
+    // Update link photo profil di Cloud SQL
+    const knex = await createTcpPool();
+    try {
+      await knex('user').where({ id: id }).update({ picture: newFileName })
+    } finally {
+      await knex.destroy(); // Menutup koneksi pool setelah penggunaannya
+    }
+
+    return h.response({ message: 'Photo profile updated successfully' }).code(200)
+  } catch (error) {
+    console.error('Error updating photo profile:', error)
+    return h.response({ error: 'Internal Server Error' }).code(500)
+  }
+};
+
+module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler }
