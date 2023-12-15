@@ -34,11 +34,11 @@ const validateUser = async (request, username, password, h) => {
     const user = await knex('user').where({ email: username }).first()
 
     if (!user) {
-      return { isValid: false, credentials: null }
+      return { isValid: false, credentials: null, message: 'Email tidak terdaftar ' }
     }
 
     if (password !== user.password) {
-      return { isValid: false, credentials: null }
+      return { isValid: false, credentials: null, message: 'Password salah' }
     }
     return { isValid: true, credentials: { username } }
   } catch (error) {
@@ -210,7 +210,6 @@ const deletePictureHandler = async (request, h) => {
     // Hapus foto profil dari Cloud Storage
     await deleteProfilePhoto(bucketName, fileName)
 
-    // Hapus link foto profil dari Cloud SQL
     const knex = await createTcpPool()
     await knex('user').where({ id: id }).update({ picture: null })
     success = true
