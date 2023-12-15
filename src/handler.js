@@ -1,8 +1,8 @@
 const { nanoid } = require('nanoid')
-const { Storage } = require('@google-cloud/storage')
+const { gcloud } = require('@google-cloud/storage')
 const { Knex } = require('knex')
 
-const storage = new Storage() // Create a new Storage instance
+const storage = new gcloud() // Create a new Storage instance
 const bucketName = 'your-unique-bucket-name'
 
 // createTcpPool initializes a TCP conneconst storage = new Storage();ction pool for a Cloud SQL
