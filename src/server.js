@@ -2,6 +2,7 @@
 
 const Hapi = require('@hapi/hapi')
 const routes = require('./routes')
+const { validateUser } = require('./handlers')
 
 const init = async () => {
   const PORT = process.env.PORT || 443
@@ -14,6 +15,9 @@ const init = async () => {
       }
     }
   })
+  await server.register(require('@hapi/basic'))
+  server.auth.strategy('login', 'basic', { validate: validateUser })
+  server.auth.default('login')
 
   server.route(routes)
   await server.start()
