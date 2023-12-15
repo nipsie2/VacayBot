@@ -1,8 +1,9 @@
 const { nanoid } = require('nanoid')
-const { gcloud } = require('@google-cloud/storage')
+const { Storage } = require('@google-cloud/storage')
 const { Knex } = require('knex')
 
-const storage = new gcloud(); // Create a new Storage instance
+const storage = new Storage() // Create a new Storage instance
+const bucketName = 'your-unique-bucket-name'
 
 // createTcpPool initializes a TCP conneconst storage = new Storage();ction pool for a Cloud SQL
 // instance of Postgres.
@@ -25,6 +26,25 @@ const createTcpPool = async config => {
   }
   // Establish a connection to the database.
   return Knex(dbConfig)
+}
+const validateUser = async (request, username, password, h) => {
+  const knex = await createTcpPool()
+
+  try {
+    const user = await knex('user').where({ email: username }).first()
+
+    if (!user) {
+      return { isValid: false, credentials: null }
+    }
+
+    if (password !== user.password) {
+      return { isValid: false, credentials: null }
+    }
+    return { isValid: true, credentials: { username } }
+  } catch (error) {
+    console.error('Error validating user:', error)
+    return { isValid: false, credentials: null }
+  }
 }
 
 const registerHandler = (request, h) => {
@@ -103,24 +123,23 @@ const editUserHandler = (request, h) => {
   return response
 }
 const deleteProfilePhoto = async (bucketName, fileName) => {
-  await storage.bucket(bucketName).file(fileName).delete();
-};
+  await storage.bucket(bucketName).file(fileName).delete()
+}
 
 const deleteUserData = async (id) => {
-  const knex = await createTcpPool();
+  const knex = await createTcpPool()
 
   try {
     await knex('user').where({ id: id }).del()
   } catch (e) {
     console.error(e.message)
-  } finally {
-    await knex.destroy(); // Menutup koneksi pool setelah penggunaannya
   }
 }
 
 const deleteUserHandler = async (request, h) => {
   try {
-    const { id, bucketName, fileName } = request.payload
+    const { id } = request.params
+    const { fileName } = request.payload
 
     // Hapus foto profil dari Cloud Storage
     await deleteProfilePhoto(bucketName, fileName)
@@ -128,33 +147,121 @@ const deleteUserHandler = async (request, h) => {
     // Hapus data pengguna dari Cloud SQL
     await deleteUserData(id)
 
-    return h.response({ message: 'User data and profile photo deleted successfully' }).code(200)
+    const response = h.response({
+      status: 'success',
+      message: 'Data user dan profile photo berhasil dihapus'
+    })
+
+    response.code(200)
+    return response
   } catch (error) {
-    console.error('Error deleting user:', error)
-    return h.response({ error: 'Internal Server Error' }).code(500)
+    const response = h.response({
+      status: 'fail',
+      message: 'Terjadi kesalahan saat menghapus data user dan profile photo'
+    })
+
+    return response.code(400)
   }
 }
 const editPictureHandler = async (request, h) => {
-  try {
-    const { id, bucketName, fileName } = request.payload
+  let success = false
 
-    // Hapus foto profil dari Cloud Storag
-    const newFileName = `picture/${id}-${nanoid(8)}.jpg` // Generate a unique filename
-    await storage.bucket(bucketName).file(fileName).move(newFileName)
+  try {
+    const { id } = request.params
+    const { image } = request.payload.image
+
+    // Update photo profile di Cloud Storage
+    const newFileName = `picture/${id}-${nanoid(8)}.jpg`
+    await storage.bucket(bucketName).file(newFileName).save(image)
 
     // Update link photo profil di Cloud SQL
-    const knex = await createTcpPool();
-    try {
-      await knex('user').where({ id: id }).update({ picture: newFileName })
-    } finally {
-      await knex.destroy(); // Menutup koneksi pool setelah penggunaannya
-    }
-
-    return h.response({ message: 'Photo profile updated successfully' }).code(200)
+    const knex = await createTcpPool()
+    await knex('user').where({ id: id }).update({ picture: newFileName })
+    success = true
   } catch (error) {
     console.error('Error updating photo profile:', error)
-    return h.response({ error: 'Internal Server Error' }).code(500)
   }
-};
 
-module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler }
+  if (success) {
+    const response = h.response({
+      status: 'success',
+      message: 'Photo profile berhasil diubah'
+    })
+
+    response.code(200)
+    return response
+  } else {
+    const response = h.response({
+      status: 'fail',
+      message: 'Internal Server Error'
+    })
+    response.code(500)
+    return response
+  }
+}
+
+const deletePictureHandler = async (request, h) => {
+  let success = false
+
+  try {
+    const { id } = request.params
+    const { fileName } = request.payload
+
+    // Hapus foto profil dari Cloud Storage
+    await deleteProfilePhoto(bucketName, fileName)
+
+    // Hapus link foto profil dari Cloud SQL
+    const knex = await createTcpPool()
+    await knex('user').where({ id: id }).update({ picture: null })
+    success = true
+  } catch (error) {
+    console.error('Error deleting photo profile:', error)
+  }
+
+  if (success) {
+    const response = h.response({
+      status: 'success',
+      message: 'Photo profile berhasil dihapus'
+    })
+    response.code(200)
+    return response
+  } else {
+    const response = h.response({
+      status: 'fail',
+      message: 'Photo profile tidak berhasil dihapus'
+    })
+    response.code(500)
+    return response
+  }
+}
+const loginHandler = async (request, h) => {
+  const { email, password } = request.payload
+
+  if (!email || !password) {
+    const response = h.response({
+      status: 'fail',
+      message: 'Mohon Masukan Email dan password '
+    })
+    response.code(400)
+    return response
+  }
+
+  const { isValid } = await validateUser(request, email, password)
+
+  if (!isValid) {
+    const response = h.response({
+      status: 'fail',
+      message: 'Invalid credentials'
+    })
+    response.code(401)
+    return response
+  }
+
+  const response = h.response({
+    status: 'success',
+    message: 'Login berhasil'
+  })
+  response.code(200)
+  return response
+}
+module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler, deletePictureHandler, loginHandler }
