@@ -2,7 +2,7 @@ from llama_cpp import Llama
 import timeit
 
 # Load Llama 2 model
-llm = Llama(model_path="llama-2-7b-chat.ggmlv3.q2_K.bin",
+llm = Llama(model_path="llama-2-7b-chat.Q2_K.gguf",
             n_ctx=512,
             n_batch=128)
 
