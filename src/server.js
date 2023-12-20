@@ -5,10 +5,10 @@ const routes = require('./routes')
 const { validateUser } = require('./handlers')
 
 const init = async () => {
-  const PORT = process.env.PORT || 443
+  const PORT = process.env.PORT || 80
   const server = Hapi.server({
     port: PORT,
-    host: '0.0.0.0',
+    host: 'localhost',
     routes: {
       cors: {
         origin: ['*']
