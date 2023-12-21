@@ -85,7 +85,7 @@ const registerHandler = (request, h) => {
 
   const id = nanoid(16)
   try {
-    createUnixSocketPool().knex('users').insert({ id: id, email: email, nama: nam, password: password })
+    createUnixSocketPool().knex('users').insert({ id: id, email: email, nama: nama, password: password })
   } catch (e) {
     const response = h.response({
       status: 'failed',
@@ -140,13 +140,12 @@ const editUserHandler = (request, h) => {
   return response
 }
 
-
 const deleteUserHandler = async (request, h) => {
   try {
     const { id } = request.params
     const { fileName } = request.payload
 
-    const deleteProfilePhoto = async ( fileName) => {
+    const deleteProfilePhoto = async (fileName) => {
       await bucket.file(fileName).delete()
     }
 
@@ -203,15 +202,15 @@ const editPictureHandler = async (request, h) => {
     const response = h.response({
       status: 'success',
       message: 'Photo profile berhasil diubah'
-    });
+    })
 
     response.code(200)
     return response
   } else {
     const response = h.response({
       status: 'fail',
-      message: 'Internal Server Error',
-    });
+      message: 'Internal Server Error'
+    })
     response.code(500)
     return response
   }
@@ -224,7 +223,7 @@ const deletePictureHandler = async (request, h) => {
     const { id } = request.params
     const { fileName } = request.payload
 
-    const deleteProfilePhoto = async ( fileName) => {
+    const deleteProfilePhoto = async (fileName) => {
       await bucket.file(fileName).delete()
     }
 
@@ -258,6 +257,7 @@ const logoutHandler = (request, h) => {
     return { credentials: null, isValid: false }
   }
   try {
+    init.server.register(require('@hapi/basic'))
     init.server.auth.strategy('simple', 'basic', { logout })
 
     const response = h.response({
@@ -302,14 +302,11 @@ const getUserHandler = (request, h) => {
 }
 
 const loginHandler = async (request, h) => {
-  const { username, password } = request.payload
+  const { email, password } = request.payload
 
-  init.server.register(require('@hapi/basic'))
-  init.server.auth.strategy('login', 'basic', { validate })
-
-  async function validate (request, username, password, h) {
+  async function validate (request, email, password, h) {
     try {
-      const users = knex('users').where({ email: username }).first()
+      const users = knex('users').where({ email: email }).first()
 
       if (!users) {
         return { isValid: false, credentials: null, message: 'Email tidak terdaftar' }
@@ -319,12 +316,15 @@ const loginHandler = async (request, h) => {
         return { isValid: false, credentials: null, message: 'Password salah' }
       }
 
-      return { isValid: true, credentials: { username } }
+      return { isValid: true, credentials: { email } }
     } catch (error) {
       console.error('Error validating user:', error)
       return { isValid: false, credentials: null, message: 'Terjadi kesalahan saat validasi' }
     }
   }
+
+  init.server.register(require('@hapi/basic'))
+  init.server.auth.strategy('login', 'basic', { validate })
 
   if (!email || !password) {
     return h.response({
@@ -333,7 +333,7 @@ const loginHandler = async (request, h) => {
     }).code(400)
   }
 
-  const { isValid, message } = await validate(request, username, password, h)
+  const { isValid, message } = await validate(request, email, password, h)
 
   if (!isValid) {
     return h.response({
@@ -347,6 +347,5 @@ const loginHandler = async (request, h) => {
     message: 'Login berhasil'
   }).code(200)
 }
-
 
 module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler, deletePictureHandler, logoutHandler, getUserHandler, loginHandler }
