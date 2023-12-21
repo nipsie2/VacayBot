@@ -1,5 +1,5 @@
 <p align="center">
-  ![alt_text](https://github.com/nipsie2/VacayBot/blob/backend-api/image/Logo_VacayBot.jpg?raw=true)"  width="50%" height="50%">
+  <img src="![Logo_VacayBot](https://github.com/nipsie2/VacayBot/assets/111023358/ccac1c1b-be97-447d-901e-961de4332583)"  width="50%" height="50%">
 </p>
 
 # VacayBot: Bangkit CH2-PS350 Product Capstone Project
