@@ -280,14 +280,14 @@ const getUserHandler = (request, h) => {
   const { id } = request.params
   try {
     const fileName = knex('users').where({ id: id }).select('picture')
-    const picContent = btoa(storage.bucket(bucketName).file(fileName).download())
+    const picContent = storage.bucket(bucketName).file(fileName).download()
     const userData = knex('users').where({ id: id }).select('nama', 'email')
 
     const response = h.response({
       status: 'success',
       message: 'Berhasil mengirim data dan foto',
-      picture: picContent,
-      data: userData
+      picture: toString(picContent),
+      data: toString(userData)
     })
     response.code(200)
     return response
