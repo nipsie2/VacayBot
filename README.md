@@ -13,3 +13,10 @@ Hello, Everyone! We are from CH2-PS350 team, consisting of 3 Machine Learning, 2
 | A678BSY2965 |     Inu Rengga Erlangga     | Mobile Development |
 
 # What is VacayBot
+VacayBot is a smart travel assistant designed to help tourists plan trips abroad. It's like having a knowledgeable friend who creates personalized travel plans based on your budget and the kind of places you like to visit. It solves the problem of finding tailored travel advice for new foreign destinations, making it easier for travelers to explore without hassle.
+
+# Important Links
+# Datasets
+You can access our used public datasets on the following links:
+https://www.kaggle.com/datasets/aprabowo/indonesia-tourism-destination?select=package_tourism.csv
+
