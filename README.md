@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="C:/Users/WIN20H1/Downloads/Logo_VacayBot.jpg"  width="50%" height="50%">
+  <img src="Logo_VacayBot.jpg"  width="50%" height="50%">
 </p>
 
 # VacayBot: Bangkit CH2-PS350 Product Capstone Project
-Hi everybody! We are from the CH2-PS350 team, consisting of 1 Mobile Development student, 2 Cloud Computing students, and 3 Machine Learning students. This is our repository for the VacayBot project. VacayBot is the Bangkit 2023 capstone project with the theme of sustainable living using FastAPI as the backend and Android (Kotlin) as the frontend.
+Hi everyone! We are from the CH2-PS350 team, consisting of 1 Mobile Development student, 2 Cloud Computing students, and 3 Machine Learning students. This is our repository for the VacayBot project. VacayBot is the Bangkit 2023 capstone project with the theme of sustainable living using FastAPI as the backend and Android (Kotlin) as the frontend.
 
 ## Meet our team!
 | ID | Name | Learning Path  |
@@ -20,10 +20,10 @@ vacaybot is a tourism travel application that can provide ideas for tourists who
 
 ### How does this app work?
 <p align="center">
-    <img src="C:/Users/WIN20H1/Downloads/VacayBot-1.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
-    <img src="C:/Users/WIN20H1/Downloads/VacayBot-2.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
-    <img src="C:/Users/WIN20H1/Downloads/VacayBot-3.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
-    <img src="C:/Users/WIN20H1/Downloads/VacayBot-4.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+    <img src="VacayBot-1.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+    <img src="VacayBot-2.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+    <img src="VacayBot-3.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+    <img src="VacayBot-4.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
 </p>
 
 
