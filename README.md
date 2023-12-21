@@ -30,6 +30,8 @@ vacaybot is a tourism travel application that can provide ideas for tourists who
 ### Try out our app!
 If you want to know more about this app, you can download it [here](https://drive.google.com/file/d/1QztQMq2tiA1t0xLeMIoE8yQoBW5S2njo/view?usp=sharing).
 
+### Datasets
+https://www.kaggle.com/datasets/aprabowo/indonesia-tourism-destination?select=package_tourism.csv
 
 ### UI/UX Design
 You can access our prototype design on the following links: [UI/UX Design](https://www.figma.com/file/2JtqbgL9xITSBwom2SF4z9/Untitled?type=design&node-id=6%3A116&mode=design&t=Ct5yUa3pm2GRN97s-1)
