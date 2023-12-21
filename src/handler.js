@@ -1,6 +1,8 @@
 const { nanoid } = require('nanoid')
 const { Storage } = require('@google-cloud/storage')
 const { knex } = require('knex')
+const init = require('./server')
+const btoa = require('btoa')
 
 const storage = new Storage({
   projectId: 'vacaybot-407302',
@@ -17,7 +19,6 @@ const storage = new Storage({
     auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
     client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/vacaybot-storage%40vacaybot-407302.iam.gserviceaccount.com',
     universe_domain: 'googleapis.com'
-
   }
 })
 
@@ -38,7 +39,7 @@ const createUnixSocketPool = async config => {
         database: process.env.DB_NAME, // e.g. 'my-database'
         socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
         // Specify additional properties here.
-        ...config
+        ...config,
       }
     })
   } catch (error) {
@@ -48,8 +49,10 @@ const createUnixSocketPool = async config => {
   // Note: Saving credentials in environment variables is convenient, but not
   // secure - consider a more secure solution such as
   // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-  // keep secrets safe
+  // keep secrets safe.
 }
+
+createUnixSocketPool()
 
 const registerHandler = (request, h) => {
   const { nama, email, password } = request.payload
@@ -82,9 +85,14 @@ const registerHandler = (request, h) => {
 
   const id = nanoid(16)
   try {
-    createUnixSocketPool().knex('users').insert({ id, email, nama: nam, password })
+    createUnixSocketPool().knex('users').insert({ id: id, email: email, nama: nam, password: password })
   } catch (e) {
-    console.log(e.message)
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
+    return response
   }
 
   const response = h.response({
@@ -110,12 +118,17 @@ const editUserHandler = (request, h) => {
     return response
   }
   try {
-    createUnixSocketPool().knex('users').where({ id })
+    createUnixSocketPool().knex('users').where({ id: id })
       .update({
         password
       })
   } catch (e) {
-    console.log(e.message)
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
+    return response
   }
 
   const response = h.response({
@@ -126,22 +139,24 @@ const editUserHandler = (request, h) => {
   response.code(200)
   return response
 }
-const deleteProfilePhoto = async (fileName) => {
-  await bucket.file(fileName).delete()
-}
 
-const deleteUserData = async (id) => {
-  try {
-    await createUnixSocketPool().knex('users').where({ id }).del()
-  } catch (e) {
-    console.error(e.message)
-  }
-}
 
 const deleteUserHandler = async (request, h) => {
   try {
     const { id } = request.params
     const { fileName } = request.payload
+
+    const deleteProfilePhoto = async ( fileName) => {
+      await bucket.file(fileName).delete()
+    }
+
+    const deleteUserData = async (id) => {
+      try {
+        await createUnixSocketPool().knex('users').where({ id }).del()
+      } catch (e) {
+        console.error(e.message)
+      }
+    }
 
     // Hapus foto profil dari Cloud Storage
     await deleteProfilePhoto(bucket, fileName)
@@ -170,12 +185,13 @@ const editPictureHandler = async (request, h) => {
   let success = false
 
   try {
-    const image = request.payload.image
-
+    const { image } = request.payload.image
     const { id } = request.params
     const newFileName = `picture/${id}-${nanoid(8)}.jpg`
 
-    await bucket.file(newFileName).save(image)
+    await bucket.file(newFileName).upload(image)
+
+    // Update link photo profil di Cloud SQL
     await createUnixSocketPool().knex('users').where({ id: id }).update({ picture: newFileName })
 
     success = true
@@ -208,8 +224,13 @@ const deletePictureHandler = async (request, h) => {
     const { id } = request.params
     const { fileName } = request.payload
 
+    const deleteProfilePhoto = async ( fileName) => {
+      await bucket.file(fileName).delete()
+    }
+
     // Hapus foto profil dari Cloud Storage
     await deleteProfilePhoto(fileName)
+    await createUnixSocketPool().knex('users').where({ id: id }).update({ picture: null })
 
     success = true
   } catch (error) {
@@ -232,5 +253,100 @@ const deletePictureHandler = async (request, h) => {
     return response
   }
 }
+const logoutHandler = (request, h) => {
+  const logout = async () => {
+    return { credentials: null, isValid: false }
+  }
+  try {
+    init.server.auth.strategy('simple', 'basic', { logout })
 
-module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler, deletePictureHandler }
+    const response = h.response({
+      status: 'success',
+      message: 'Telah logout'
+    })
+    response.code(200)
+    return response
+  } catch (e) {
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
+    return response
+  }
+}
+
+const getUserHandler = (request, h) => {
+  const { id } = request.params
+  try {
+    const fileName = knex('users').where({ id: id }).select('picture')
+    const picContent = btoa(storage.bucket(bucketName).file(fileName).download())
+    const userData = knex('users').where({ id: id }).select('nama', 'email')
+
+    const response = h.response({
+      status: 'success',
+      message: 'Berhasil mengirim data dan foto',
+      picture: picContent,
+      data: userData
+    })
+    response.code(200)
+    return response
+  } catch (e) {
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
+    return response
+  }
+}
+
+const loginHandler = async (request, h) => {
+  const { username, password } = request.payload
+
+  init.server.register(require('@hapi/basic'))
+  init.server.auth.strategy('login', 'basic', { validate })
+
+  async function validate (request, username, password, h) {
+    try {
+      const users = knex('users').where({ email: username }).first()
+
+      if (!users) {
+        return { isValid: false, credentials: null, message: 'Email tidak terdaftar' }
+      }
+
+      if (password !== users.password) {
+        return { isValid: false, credentials: null, message: 'Password salah' }
+      }
+
+      return { isValid: true, credentials: { username } }
+    } catch (error) {
+      console.error('Error validating user:', error)
+      return { isValid: false, credentials: null, message: 'Terjadi kesalahan saat validasi' }
+    }
+  }
+
+  if (!email || !password) {
+    return h.response({
+      status: 'fail',
+      message: 'Mohon masukkan email dan password.'
+    }).code(400)
+  }
+
+  const { isValid, message } = await validate(request, username, password, h)
+
+  if (!isValid) {
+    return h.response({
+      status: 'fail',
+      message: message || 'Invalid credentials'
+    }).code(401)
+  }
+
+  return h.response({
+    status: 'success',
+    message: 'Login berhasil'
+  }).code(200)
+}
+
+
+module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler, deletePictureHandler, logoutHandler, getUserHandler, loginHandler }
