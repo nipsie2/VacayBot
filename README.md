@@ -1,22 +1,36 @@
+<p align="center">
+  <img src="C:/Users/WIN20H1/Downloads/Logo_VacayBot.jpg"  width="50%" height="50%">
+</p>
+
 # VacayBot: Bangkit CH2-PS350 Product Capstone Project
+Hi everybody! We are from the CH2-PS350 team, consisting of 1 Mobile Development student, 2 Cloud Computing students, and 3 Machine Learning students. This is our repository for the VacayBot project. VacayBot is the Bangkit 2023 capstone project with the theme of sustainable living using FastAPI as the backend and Android (Kotlin) as the frontend.
 
-Hello, Everyone! We are from CH2-PS350 team, consisting of 3 Machine Learning, 2 Cloud Computing, and 1 Mobile Development student. Here is our repository for VacayBot project. VacayBot is a Bangkit 2023 capstone project with the theme of Tourism, Cultural, and Hospitality by utilizing FastAPI as the backend and Android (Kotlin) as the frontend. 
+## Meet our team!
+| ID | Name | Learning Path  |
+| ----------| --- | ---------- |
+| M011BSY0369 | John Harry Theofilus | Machine Learning |
+| M550BKX4451 | Poppy Dalama Zain | Machine Learning |
+| M550BKX4403 | Anisa Salsabila | Machine Learning |
+| C006BSY3490 | Muhammad Hanif Ardhiansyah | Cloud Computing |
+| C318BSX3715 | Hurina Aini Sundus | Cloud Computing |
+| A678BSY2965 | Inu Rengga Erlangga | Mobile Development |
 
-# Meet our team!
-|      ID     |             Name            |    Learning Path   |
-|-------------|-----------------------------|--------------------|
-| M011BSY0369 |    John Harry Theofilus     |  Machine Learning  |
-| M550BKX4451 |      Poppy Dalama Zain      |  Machine Learning  |
-| M550BKX4403 |       Anisa Salsabila       |  Machine Learning  |
-| C006BSY3490 | Muhammad Hanif Ardhiansyah  |  Cloud Computing   |
-| C318BSX3715 |     Hurina Aini Sundus      |  Cloud Computing   |
-| A678BSY2965 |     Inu Rengga Erlangga     | Mobile Development |
+## What is VacayBot?
+vacaybot is a tourism travel application that can provide ideas for tourists who want to look for a holiday abroad but the person is confused about the destination they are planning. This vacaybot uses AI to find holidays that suit what we want.
 
-# What is VacayBot
-VacayBot is a smart travel assistant designed to help tourists plan trips abroad. It's like having a knowledgeable friend who creates personalized travel plans based on your budget and the kind of places you like to visit. It solves the problem of finding tailored travel advice for new foreign destinations, making it easier for travelers to explore without hassle.
+### How does this app work?
+<p align="center">
+    <img src="C:/Users/WIN20H1/Downloads/VacayBot-1.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+    <img src="C:/Users/WIN20H1/Downloads/VacayBot-2.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+    <img src="C:/Users/WIN20H1/Downloads/VacayBot-3.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+    <img src="C:/Users/WIN20H1/Downloads/VacayBot-4.jpeg" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+</p>
 
-# Important Links
-# Datasets
-You can access our used public datasets on the following links:
-https://www.kaggle.com/datasets/aprabowo/indonesia-tourism-destination?select=package_tourism.csv
+
+### Try out our app!
+If you want to know more about this app, you can download it [here](https://drive.google.com/file/d/1QztQMq2tiA1t0xLeMIoE8yQoBW5S2njo/view?usp=sharing).
+
+
+### UI/UX Design
+You can access our prototype design on the following links: [UI/UX Design](https://www.figma.com/file/2JtqbgL9xITSBwom2SF4z9/Untitled?type=design&node-id=6%3A116&mode=design&t=Ct5yUa3pm2GRN97s-1)
 
