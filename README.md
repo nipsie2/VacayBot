@@ -1,5 +1,4 @@
-# VacayBot: Bangkit CH2-PS350 
-# Product Capstone Project
+# VacayBot: Bangkit CH2-PS350 Product Capstone Project
 
 Hello, Everyone! We are from CH2-PS350 team, consisting of 3 Machine Learning, 2 Cloud Computing, and 1 Mobile Development student. Here is our repository for VacayBot project. VacayBot is a Bangkit 2023 capstone project with the theme of Tourism, Cultural, and Hospitality by utilizing FastAPI as the backend and Android (Kotlin) as the frontend. 
 
