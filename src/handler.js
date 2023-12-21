@@ -1,76 +1,63 @@
 const { nanoid } = require('nanoid')
-const { gcloud } = require('@google-cloud/storage')
-const { Knex } = require('knex')
+const { Storage } = require('@google-cloud/storage')
+const { knex } = require('knex')
+const init = require('./server')
+const btoa = require('btoa')
 
-const storage = new gcloud() // Create a new Storage instance
+const storage = new Storage({
+  projectId: 'vacaybot-407302',
+  credentials: {
+
+    type: 'service_account',
+    project_id: 'vacaybot-407302',
+    private_key_id: '1997a69362ee12818e604e69a68e13fcc5861cad',
+    private_key: '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3LMDQ8KMxEaIK\n2UYdqepqW48J6FKKaPwA8BHQJygp112StDfShe2EcGdQoQEy72G9HwUkLGYMlwKQ\nFhdIZT2GEaiUkAezWzntX/gYNWF6EK1UZKJTlDIILMjiJvG/1yrJdu2hkZwJ9l0q\ntQUAdt9HhgLir7rvqDXIGHWR+QMLY8HhIyv98eOveyWSIU945tmLlC1WR+4Z+e1i\nveaM84kIe+bmZeGBwEL725obJ/iaEPgyrWoxfMePY0+/KOMNk43Jd6djY0+tN5E3\ntMPmhB3ofWMCPKH+y2JH5pXz01c6w1nh6+iyOeJFjKjHyZ0FRtCHrHm3RKWmtzyB\nD2YolOmLAgMBAAECggEAMaMzhwtGtdPY7Qau7PfwGa1BCEbII1DKxXhI43bQ9/Gw\nHkKvA+IeGK8bGCrhN8vN2SGQU5qidtPvMluCKLCiqPOdEtEq/QwCGRTSFsFUbm8Z\ngU6Z/HsiybtVHo++ICXvJtQPFiLuvXZhDeMq/VK5M9kZbBOB3VLgbB5QseNgU1PZ\nbCpqoAI1lqAiw2au+Y/jo3KuQXbZPNJhWyALw+M3w4ThC4FaZqZ88X7AglChbLGS\nMxIjiL/7CCpydz5L40Gix4veBZeEcBz9tQFtDAlUjrCNvc6fu+CoZSXq237+4940\nCxINf2m5xzCBK3s0WAZvg2jEfmVMMX7+VjA0ghJ/MQKBgQD0WIIs+k9woy0A5pXN\njomziiWCT3ug2AVnalY6tU6jS+Q4n2PhtkS+GWRrnAYgfFVDw8XEv13nA5n2ofDh\nCp8b7lCBW4UK3hFHwGbh5GBX+lJRLArSyr2zI3aVN/392YtTWvyXdViIwrqju/p1\n7KUhVLZH4zHqM2IFFNvgkRXmEQKBgQC/6VcaAcyPl3+slj9xODaK7RTIEgEK7r5x\njTmYirg9aysXz1g64ZMmnKiyTCx+SRfTAyCpntemQfJoJWNhUlKQ2GXHrAJc8eXC\n+c6QLQwWmGuKe8lo0nHvb2s9Gq9eI3xs0zso8RHLjEINwL0WFVr6p9rJSFbC/hDM\niL3zpRqJ2wKBgDy3ZZmBlY3arkskASN0ANmhQVLRJ1o/c5BQBx9NgD3plMtRKAOl\nRA2sx5xJx+f4nUNaeWE7YD0QUwjLEs0I06KgJFcQg83AgrC+qZIGKr6R0DSlagcZ\nI+xIqqXHpRCYJxvOZyfHm/lX0gLvqfv1ks7meukAFp4oqHm0xjJWOwfRAoGAEuSy\nAolyziAoHaGdFVRnaj308c1z9NOURDGXHgFqKgHG+E0dbo6OohqCMSt2pegkRE3m\nhUxyBpgveTlVE1u7bS8gtgulH+lgqVVWlLMaoY7X54ZQSdWOCfh6IkXiRe5QbZZO\nGLXC/rsMNbZn5yirEEo+K9rHT+MbXEeKC9aRSkkCgYEA2F4YZ7M005N+66FIfoKz\nyKHQPbmXzjAcpZNwCldvqKEq51zVXrhxwiqmtUzeOYFNF0N2IdhF0GurNiQos/22\nBXGLIFgg/a1zw/yaaPmodzkmehkzgF1rqz0Ob/hUHOj37W/GKXL9ijvKkS0Yenf/\nGhxNiwfC5XOlPrc3COB0lBA=\n-----END PRIVATE KEY-----\n',
+    client_email: 'vacaybot-storage@vacaybot-407302.iam.gserviceaccount.com',
+    client_id: '108158151243537343709',
+    auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+    token_uri: 'https://oauth2.googleapis.com/token',
+    auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+    client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/vacaybot-storage%40vacaybot-407302.iam.gserviceaccount.com',
+    universe_domain: 'googleapis.com'
+  }
+})
+
 const bucketName = 'vacaybot-bucket-testing'
+const bucket = storage.bucket(bucketName)
 
+// vacaybot vacaybot
 // createUnixSocketPool initializes a Unix socket connection pool for
-// a Cloud SQL instance of Postgres.
+// a Cloud SQL instance of MySQL.
+
 const createUnixSocketPool = async config => {
+  try {
+    return knex({
+      client: 'pg',
+      connection: {
+        user: process.env.DB_USER, // e.g. 'my-db-user'
+        password: process.env.DB_PASS, // e.g. 'my-db-password'
+        database: process.env.DB_NAME, // e.g. 'my-database'
+        socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
+        // Specify additional properties here.
+        ...config,
+      }
+    })
+  } catch (error) {
+    console.error('Error creating database pool:', error)
+    throw error // Rethrow the error to handle it elsewhere if needed
+  }
   // Note: Saving credentials in environment variables is convenient, but not
   // secure - consider a more secure solution such as
   // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
   // keep secrets safe.
-  return Knex({
-    client: 'pg',
-    connection: {
-      user: process.env.DB_USER, // e.g. 'my-user'
-      password: process.env.DB_PASS, // e.g. 'my-user-password'
-      database: process.env.DB_NAME, // e.g. 'my-database'
-      host: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-    },
-    // ... Specify additional properties here.
-    ...config,
-  });
-};
-
-// createTcpPool initializes a TCP conneconst storage = new Storage();ction pool for a Cloud SQL
-// instance of Postgres.
-// const createTcpPool = async config => {
-//   // Note: Saving credentials in environment variables is convenient, but not
-//   // secure - consider a more secure solution such as
-//   // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-//   // keep secrets safe.
-//   const dbConfig = {
-//     client: 'pg',
-//     connection: {
-//       host: process.env.INSTANCE_HOST, // e.g. '127.0.0.1'
-//       port: process.env.DB_PORT, // e.g. '5432'
-//       user: process.env.DB_USER, // e.g. 'my-user'
-//       password: process.env.DB_PASS, // e.g. 'my-user-password'
-//       database: process.env.DB_NAME // e.g. 'my-database'
-//     },
-//     // ... Specify additional properties here.
-//     ...config
-//   }
-//   // Establish a connection to the database.
-//   return Knex(dbConfig)
-// }
-const validateUser = async (request, username, password, h) => {
-  const knex = await createTcpPool()
-
-  try {
-    const user = await knex('user').where({ email: username }).first()
-
-    if (!user) {
-      return { isValid: false, credentials: null, message: 'Email tidak terdaftar ' }
-    }
-
-    if (password !== user.password) {
-      return { isValid: false, credentials: null, message: 'Password salah' }
-    }
-    return { isValid: true, credentials: { username } }
-  } catch (error) {
-    console.error('Error validating user:', error)
-    return { isValid: false, credentials: null }
-  }
 }
 
-const registerHandler = (request, h) => {
-  const { name, email, password } = request.payload
+createUnixSocketPool()
 
-  if (!name) {
+const registerHandler = (request, h) => {
+  const { nama, email, password } = request.payload
+
+  if (!nama) {
     const response = h.response({
       status: 'fail',
       message: 'Registrasi gagal. Mohon isi nama anda'
@@ -97,11 +84,15 @@ const registerHandler = (request, h) => {
   }
 
   const id = nanoid(16)
-  await 
   try {
-    createTcpPool().Knex('user').insert({ id: id, email: email, name: name, password: password })
+    knex('users').insert({ id: id, email: email, nama: nama, password: password })
   } catch (e) {
-    console.log(e.message)
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
+    return response
   }
 
   const response = h.response({
@@ -127,12 +118,17 @@ const editUserHandler = (request, h) => {
     return response
   }
   try {
-    createTcpPool().Knex('user').where({ id: id })
+    knex('users').where({ id: id })
       .update({
         password: password
       })
   } catch (e) {
-    console.log(e.message)
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
+    return response
   }
 
   const response = h.response({
@@ -143,15 +139,14 @@ const editUserHandler = (request, h) => {
   response.code(200)
   return response
 }
-const deleteProfilePhoto = async (bucketName, fileName) => {
-  await storage.bucket(bucketName).file(fileName).delete()
+
+const deleteProfilePhoto = async (fileName) => {
+  await bucket.file(fileName).delete()
 }
 
 const deleteUserData = async (id) => {
-  const knex = await createTcpPool()
-
   try {
-    await knex('user').where({ id: id }).del()
+    await createUnixSocketPool().knex('users').where({ id: id }).del()
   } catch (e) {
     console.error(e.message)
   }
@@ -163,7 +158,7 @@ const deleteUserHandler = async (request, h) => {
     const { fileName } = request.payload
 
     // Hapus foto profil dari Cloud Storage
-    await deleteProfilePhoto(bucketName, fileName)
+    await deleteProfilePhoto(bucket, fileName)
 
     // Hapus data pengguna dari Cloud SQL
     await deleteUserData(id)
@@ -188,16 +183,17 @@ const editPictureHandler = async (request, h) => {
   let success = false
 
   try {
-    const { id } = request.params
     const { image } = request.payload.image
+    const { id } = request.params
 
     // Update photo profile di Cloud Storage
+
     const newFileName = `picture/${id}-${nanoid(8)}.jpg`
-    await storage.bucket(bucketName).file(newFileName).save(image)
+
+    await bucket.file(newFileName).upload(image)
 
     // Update link photo profil di Cloud SQL
-    const knex = await createTcpPool()
-    await knex('user').where({ id: id }).update({ picture: newFileName })
+    await createUnixSocketPool().knex('users').where({ id: id }).update({ picture: newFileName })
     success = true
   } catch (error) {
     console.error('Error updating photo profile:', error)
@@ -229,10 +225,8 @@ const deletePictureHandler = async (request, h) => {
     const { fileName } = request.payload
 
     // Hapus foto profil dari Cloud Storage
-    await deleteProfilePhoto(bucketName, fileName)
+    await deleteProfilePhoto(fileName)
 
-    const knex = await createTcpPool()
-    await knex('user').where({ id: id }).update({ picture: null })
     success = true
   } catch (error) {
     console.error('Error deleting photo profile:', error)
@@ -254,34 +248,53 @@ const deletePictureHandler = async (request, h) => {
     return response
   }
 }
-const loginHandler = async (request, h) => {
-  const { email, password } = request.payload
 
-  if (!email || !password) {
+const logoutHandler = (request, h) => {
+  const logout = async () => {
+    return { credentials: null, isValid: false }
+  }
+  try {
+    init.server.auth.strategy('simple', 'basic', { logout })
+
     const response = h.response({
-      status: 'fail',
-      message: 'Mohon Masukan Email dan password '
+      status: 'success',
+      message: 'Telah logout'
     })
-    response.code(400)
+    response.code(200)
+    return response
+  } catch (e) {
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
     return response
   }
-
-  const { isValid } = await validateUser(request, email, password)
-
-  if (!isValid) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Invalid credentials'
-    })
-    response.code(401)
-    return response
-  }
-
-  const response = h.response({
-    status: 'success',
-    message: 'Login berhasil'
-  })
-  response.code(200)
-  return response
 }
-module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler, deletePictureHandler, loginHandler }
+
+const getUserHandler = (request, h) => {
+  const { id } = request.params
+  try {
+    const fileName = knex('users').where({ id: id }).select('picture')
+    const picContent = btoa(storage.bucket(bucketName).file(fileName).download())
+    const userData = knex('users').where({ id: id }).select('nama', 'email')
+
+    const response = h.response({
+      status: 'success',
+      message: 'Berhasil mengirim data dan foto',
+      picture: picContent,
+      data: userData
+    })
+    response.code(200)
+    return response
+  } catch (e) {
+    const response = h.response({
+      status: 'failed',
+      message: e.message
+    })
+    response.code(500)
+    return response
+  }
+}
+
+module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler, deletePictureHandler, logoutHandler, getUserHandler }
