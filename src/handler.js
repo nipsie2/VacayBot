@@ -5,20 +5,19 @@ const { knex } = require('knex')
 const storage = new Storage({
   projectId: 'vacaybot-407302',
   credentials: {
-    
-      type: 'service_account',
-      project_id: 'vacaybot-407302',
-      private_key_id: '1997a69362ee12818e604e69a68e13fcc5861cad',
-      private_key: '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3LMDQ8KMxEaIK\n2UYdqepqW48J6FKKaPwA8BHQJygp112StDfShe2EcGdQoQEy72G9HwUkLGYMlwKQ\nFhdIZT2GEaiUkAezWzntX/gYNWF6EK1UZKJTlDIILMjiJvG/1yrJdu2hkZwJ9l0q\ntQUAdt9HhgLir7rvqDXIGHWR+QMLY8HhIyv98eOveyWSIU945tmLlC1WR+4Z+e1i\nveaM84kIe+bmZeGBwEL725obJ/iaEPgyrWoxfMePY0+/KOMNk43Jd6djY0+tN5E3\ntMPmhB3ofWMCPKH+y2JH5pXz01c6w1nh6+iyOeJFjKjHyZ0FRtCHrHm3RKWmtzyB\nD2YolOmLAgMBAAECggEAMaMzhwtGtdPY7Qau7PfwGa1BCEbII1DKxXhI43bQ9/Gw\nHkKvA+IeGK8bGCrhN8vN2SGQU5qidtPvMluCKLCiqPOdEtEq/QwCGRTSFsFUbm8Z\ngU6Z/HsiybtVHo++ICXvJtQPFiLuvXZhDeMq/VK5M9kZbBOB3VLgbB5QseNgU1PZ\nbCpqoAI1lqAiw2au+Y/jo3KuQXbZPNJhWyALw+M3w4ThC4FaZqZ88X7AglChbLGS\nMxIjiL/7CCpydz5L40Gix4veBZeEcBz9tQFtDAlUjrCNvc6fu+CoZSXq237+4940\nCxINf2m5xzCBK3s0WAZvg2jEfmVMMX7+VjA0ghJ/MQKBgQD0WIIs+k9woy0A5pXN\njomziiWCT3ug2AVnalY6tU6jS+Q4n2PhtkS+GWRrnAYgfFVDw8XEv13nA5n2ofDh\nCp8b7lCBW4UK3hFHwGbh5GBX+lJRLArSyr2zI3aVN/392YtTWvyXdViIwrqju/p1\n7KUhVLZH4zHqM2IFFNvgkRXmEQKBgQC/6VcaAcyPl3+slj9xODaK7RTIEgEK7r5x\njTmYirg9aysXz1g64ZMmnKiyTCx+SRfTAyCpntemQfJoJWNhUlKQ2GXHrAJc8eXC\n+c6QLQwWmGuKe8lo0nHvb2s9Gq9eI3xs0zso8RHLjEINwL0WFVr6p9rJSFbC/hDM\niL3zpRqJ2wKBgDy3ZZmBlY3arkskASN0ANmhQVLRJ1o/c5BQBx9NgD3plMtRKAOl\nRA2sx5xJx+f4nUNaeWE7YD0QUwjLEs0I06KgJFcQg83AgrC+qZIGKr6R0DSlagcZ\nI+xIqqXHpRCYJxvOZyfHm/lX0gLvqfv1ks7meukAFp4oqHm0xjJWOwfRAoGAEuSy\nAolyziAoHaGdFVRnaj308c1z9NOURDGXHgFqKgHG+E0dbo6OohqCMSt2pegkRE3m\nhUxyBpgveTlVE1u7bS8gtgulH+lgqVVWlLMaoY7X54ZQSdWOCfh6IkXiRe5QbZZO\nGLXC/rsMNbZn5yirEEo+K9rHT+MbXEeKC9aRSkkCgYEA2F4YZ7M005N+66FIfoKz\nyKHQPbmXzjAcpZNwCldvqKEq51zVXrhxwiqmtUzeOYFNF0N2IdhF0GurNiQos/22\nBXGLIFgg/a1zw/yaaPmodzkmehkzgF1rqz0Ob/hUHOj37W/GKXL9ijvKkS0Yenf/\nGhxNiwfC5XOlPrc3COB0lBA=\n-----END PRIVATE KEY-----\n',
-      client_email: 'vacaybot-storage@vacaybot-407302.iam.gserviceaccount.com',
-      client_id: '108158151243537343709',
-      auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-      token_uri: 'https://oauth2.googleapis.com/token',
-      auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-      client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/vacaybot-storage%40vacaybot-407302.iam.gserviceaccount.com',
-      universe_domain: 'googleapis.com'
-    
-    
+
+    type: 'service_account',
+    project_id: 'vacaybot-407302',
+    private_key_id: '1997a69362ee12818e604e69a68e13fcc5861cad',
+    private_key: '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3LMDQ8KMxEaIK\n2UYdqepqW48J6FKKaPwA8BHQJygp112StDfShe2EcGdQoQEy72G9HwUkLGYMlwKQ\nFhdIZT2GEaiUkAezWzntX/gYNWF6EK1UZKJTlDIILMjiJvG/1yrJdu2hkZwJ9l0q\ntQUAdt9HhgLir7rvqDXIGHWR+QMLY8HhIyv98eOveyWSIU945tmLlC1WR+4Z+e1i\nveaM84kIe+bmZeGBwEL725obJ/iaEPgyrWoxfMePY0+/KOMNk43Jd6djY0+tN5E3\ntMPmhB3ofWMCPKH+y2JH5pXz01c6w1nh6+iyOeJFjKjHyZ0FRtCHrHm3RKWmtzyB\nD2YolOmLAgMBAAECggEAMaMzhwtGtdPY7Qau7PfwGa1BCEbII1DKxXhI43bQ9/Gw\nHkKvA+IeGK8bGCrhN8vN2SGQU5qidtPvMluCKLCiqPOdEtEq/QwCGRTSFsFUbm8Z\ngU6Z/HsiybtVHo++ICXvJtQPFiLuvXZhDeMq/VK5M9kZbBOB3VLgbB5QseNgU1PZ\nbCpqoAI1lqAiw2au+Y/jo3KuQXbZPNJhWyALw+M3w4ThC4FaZqZ88X7AglChbLGS\nMxIjiL/7CCpydz5L40Gix4veBZeEcBz9tQFtDAlUjrCNvc6fu+CoZSXq237+4940\nCxINf2m5xzCBK3s0WAZvg2jEfmVMMX7+VjA0ghJ/MQKBgQD0WIIs+k9woy0A5pXN\njomziiWCT3ug2AVnalY6tU6jS+Q4n2PhtkS+GWRrnAYgfFVDw8XEv13nA5n2ofDh\nCp8b7lCBW4UK3hFHwGbh5GBX+lJRLArSyr2zI3aVN/392YtTWvyXdViIwrqju/p1\n7KUhVLZH4zHqM2IFFNvgkRXmEQKBgQC/6VcaAcyPl3+slj9xODaK7RTIEgEK7r5x\njTmYirg9aysXz1g64ZMmnKiyTCx+SRfTAyCpntemQfJoJWNhUlKQ2GXHrAJc8eXC\n+c6QLQwWmGuKe8lo0nHvb2s9Gq9eI3xs0zso8RHLjEINwL0WFVr6p9rJSFbC/hDM\niL3zpRqJ2wKBgDy3ZZmBlY3arkskASN0ANmhQVLRJ1o/c5BQBx9NgD3plMtRKAOl\nRA2sx5xJx+f4nUNaeWE7YD0QUwjLEs0I06KgJFcQg83AgrC+qZIGKr6R0DSlagcZ\nI+xIqqXHpRCYJxvOZyfHm/lX0gLvqfv1ks7meukAFp4oqHm0xjJWOwfRAoGAEuSy\nAolyziAoHaGdFVRnaj308c1z9NOURDGXHgFqKgHG+E0dbo6OohqCMSt2pegkRE3m\nhUxyBpgveTlVE1u7bS8gtgulH+lgqVVWlLMaoY7X54ZQSdWOCfh6IkXiRe5QbZZO\nGLXC/rsMNbZn5yirEEo+K9rHT+MbXEeKC9aRSkkCgYEA2F4YZ7M005N+66FIfoKz\nyKHQPbmXzjAcpZNwCldvqKEq51zVXrhxwiqmtUzeOYFNF0N2IdhF0GurNiQos/22\nBXGLIFgg/a1zw/yaaPmodzkmehkzgF1rqz0Ob/hUHOj37W/GKXL9ijvKkS0Yenf/\nGhxNiwfC5XOlPrc3COB0lBA=\n-----END PRIVATE KEY-----\n',
+    client_email: 'vacaybot-storage@vacaybot-407302.iam.gserviceaccount.com',
+    client_id: '108158151243537343709',
+    auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+    token_uri: 'https://oauth2.googleapis.com/token',
+    auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+    client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/vacaybot-storage%40vacaybot-407302.iam.gserviceaccount.com',
+    universe_domain: 'googleapis.com'
+
   }
 })
 
@@ -34,26 +33,23 @@ const createUnixSocketPool = async config => {
     return knex({
       client: 'pg',
       connection: {
-      user: process.env.DB_USER, // e.g. 'my-db-user'
-      password: process.env.DB_PASS, // e.g. 'my-db-password'
-      database: process.env.DB_NAME, // e.g. 'my-database'
-      socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-      // Specify additional properties here.
-      ...config,
+        user: process.env.DB_USER, // e.g. 'my-db-user'
+        password: process.env.DB_PASS, // e.g. 'my-db-password'
+        database: process.env.DB_NAME, // e.g. 'my-database'
+        socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
+        // Specify additional properties here.
+        ...config
       }
     })
   } catch (error) {
-    console.error('Error creating database pool:', error);
-    throw error; // Rethrow the error to handle it elsewhere if needed
+    console.error('Error creating database pool:', error)
+    throw error // Rethrow the error to handle it elsewhere if needed
   }
   // Note: Saving credentials in environment variables is convenient, but not
   // secure - consider a more secure solution such as
   // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-  // keep secrets safe.
-
+  // keep secrets safe
 }
-
-
 
 const registerHandler = (request, h) => {
   const { nama, email, password } = request.payload
@@ -86,7 +82,7 @@ const registerHandler = (request, h) => {
 
   const id = nanoid(16)
   try {
-    createUnixSocketPool().knex('users').insert({ id: id, email: email, nama: nam, password: password })
+    createUnixSocketPool().knex('users').insert({ id, email, nama: nam, password })
   } catch (e) {
     console.log(e.message)
   }
@@ -114,9 +110,9 @@ const editUserHandler = (request, h) => {
     return response
   }
   try {
-    createUnixSocketPool().knex('users').where({ id: id })
+    createUnixSocketPool().knex('users').where({ id })
       .update({
-        password: password
+        password
       })
   } catch (e) {
     console.log(e.message)
@@ -130,13 +126,13 @@ const editUserHandler = (request, h) => {
   response.code(200)
   return response
 }
-const deleteProfilePhoto = async ( fileName) => {
+const deleteProfilePhoto = async (fileName) => {
   await bucket.file(fileName).delete()
 }
 
 const deleteUserData = async (id) => {
   try {
-    await createUnixSocketPool().knex('users').where({ id: id }).del()
+    await createUnixSocketPool().knex('users').where({ id }).del()
   } catch (e) {
     console.error(e.message)
   }
@@ -169,22 +165,19 @@ const deleteUserHandler = async (request, h) => {
     return response.code(400)
   }
 }
+
 const editPictureHandler = async (request, h) => {
   let success = false
 
   try {
-    
-    const { image } = request.payload.image
+    const image = request.payload.image
+
     const { id } = request.params
-
-    // Update photo profile di Cloud Storage
-    
     const newFileName = `picture/${id}-${nanoid(8)}.jpg`
-    
-    await bucket.file(newFileName).upload(image)
 
-    // Update link photo profil di Cloud SQL
+    await bucket.file(newFileName).save(image)
     await createUnixSocketPool().knex('users').where({ id: id }).update({ picture: newFileName })
+
     success = true
   } catch (error) {
     console.error('Error updating photo profile:', error)
@@ -194,15 +187,15 @@ const editPictureHandler = async (request, h) => {
     const response = h.response({
       status: 'success',
       message: 'Photo profile berhasil diubah'
-    })
+    });
 
     response.code(200)
     return response
   } else {
     const response = h.response({
       status: 'fail',
-      message: 'Internal Server Error'
-    })
+      message: 'Internal Server Error',
+    });
     response.code(500)
     return response
   }
@@ -216,7 +209,7 @@ const deletePictureHandler = async (request, h) => {
     const { fileName } = request.payload
 
     // Hapus foto profil dari Cloud Storage
-    await deleteProfilePhoto( fileName)
+    await deleteProfilePhoto(fileName)
 
     success = true
   } catch (error) {
@@ -239,7 +232,5 @@ const deletePictureHandler = async (request, h) => {
     return response
   }
 }
-
-
 
 module.exports = { registerHandler, editUserHandler, deleteUserHandler, editPictureHandler, deletePictureHandler }
