@@ -16,15 +16,10 @@ Hi everyone! We are from the CH2-PS350 team, consisting of 1 Mobile Development 
 | A678BSY2965 | Inu Rengga Erlangga | Mobile Development |
 
 ## What is VacayBot?
-vacaybot is a tourism travel application that can provide ideas for tourists who want to look for a holiday abroad but the person is confused about the destination they are planning. This vacaybot uses AI to find holidays that suit what we want.
+VacayBot is a tourism travel application that can provide ideas for tourists who want to look for a holiday abroad but the person is confused about the destination they are planning. This app uses AI to find holidays that suits to our preferences and needs.
 
 ### How does this app work?
-<p align="center">
-    <img src="![VacayBot-1](https://github.com/nipsie2/VacayBot/assets/111023358/21626292-5561-4f43-93d0-052b55e9829d)" alt="image" width="250" height="550">&nbsp; &nbsp;
-    <img src="![VacayBot2](https://github.com/nipsie2/VacayBot/assets/111023358/4327edab-f53e-4244-b5b9-b089b40b3d40)" alt="image" width="250" height="550">&nbsp; &nbsp;
-    <img src="![VacayBot3](https://github.com/nipsie2/VacayBot/assets/111023358/e980eb83-9a73-40ec-880d-37861a319c4f)" alt="image" width="250" height="550">&nbsp; &nbsp;
-    <img src="![VacayBot4](https://github.com/nipsie2/VacayBot/assets/111023358/206da11c-b600-4f2a-a7a0-6b4dfd63d651)" alt="image" width="250" height="550">&nbsp; &nbsp;
-</p>
+This app works just like a chatbot with extra features, so you can chat with this app like the usual chatbot but have specialized recommendations based on your tastes.
 
 
 ### Try out our app!
