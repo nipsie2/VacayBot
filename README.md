@@ -22,7 +22,7 @@ VacayBot is a tourism travel application that can provide ideas for tourists who
 This app works just like a chatbot with extra features, so you can chat with this app like the usual chatbot but have specialized recommendations based on your tastes.
 
 ### What happened behind this app?
-![VacayBot Cloud Architecture]([tautan_gambar](https://www.dropbox.com/scl/fi/ih0defqnprmeuojk3i7os/VacayBot-Architecture.jpg?rlkey=wsfbpo6pv8ahd5hul1vrm8zf9&dl=0))
+![VacayBot Cloud Architecture]([https://www.dropbox.com/scl/fi/ih0defqnprmeuojk3i7os/VacayBot-Architecture.jpg?rlkey=wsfbpo6pv8ahd5hul1vrm8zf9&dl=0])
 
 
 
